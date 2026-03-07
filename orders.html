@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ThreadCraft | Order History</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="nav wrap nav-plain">
+    <a class="brand" href="index.html">ThreadCraft</a>
+    <ul class="menu">
+      <li><a href="index.html">Shop</a></li>
+      <li><a href="cart.html">Cart</a></li>
+      <li><a href="checkout.html">Checkout</a></li>
+      <li><a href="admin.html">Admin</a></li>
+      <li><a href="auth.html" id="authNavLink">Login</a></li>
+    </ul>
+    <a class="cart-btn" href="cart.html">Cart <span id="cartCount">0</span></a>
+  </nav>
+
+  <main class="wrap page-main">
+    <h1 class="page-title">Order History</h1>
+    <section id="ordersList" class="orders-list"></section>
+  </main>
+
+  <div class="toast" id="toast" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+  <script src="orders.js"></script>
+</body>
+</html>

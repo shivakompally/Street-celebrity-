@@ -1,0 +1,35 @@
+﻿services:
+  - type: web
+    name: threadcraft-store
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 22.13.0
+      - key: PORT
+        value: 3000
+      - key: APP_BASE_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: PAYTM_UPI_ID
+        value: 9440991869@paytm
+      - key: PAYTM_MERCHANT_NAME
+        value: ThreadCraft
+      - key: PAYTM_MID
+        sync: false
+      - key: PAYTM_MKEY
+        sync: false
+      - key: PAYTM_WEBSITE
+        value: WEBSTAGING
+      - key: PAYTM_HOST
+        value: https://securegw-stage.paytm.in
+      - key: PAYMENT_TIMEOUT_MINUTES
+        value: 30
+      - key: ADMIN_EMAIL
+        value: admin@threadcraft.com
+      - key: ADMIN_PASSWORD
+        sync: false

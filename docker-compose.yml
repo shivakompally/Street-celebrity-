@@ -1,0 +1,34 @@
+﻿services:
+  app:
+    build: .
+    container_name: threadcraft-app
+    env_file:
+      - .env
+    environment:
+      - PORT=3000
+      - APP_BASE_URL=https://${DOMAIN}
+    volumes:
+      - threadcraft_data:/app/data
+    command: sh -c "mkdir -p /app/data && ln -sf /app/data/store.db /app/store.db && node server.js"
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2
+    container_name: threadcraft-caddy
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - DOMAIN=${DOMAIN}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - app
+    restart: unless-stopped
+
+volumes:
+  threadcraft_data:
+  caddy_data:
+  caddy_config:

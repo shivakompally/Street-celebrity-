@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ThreadCraft | Checkout</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="nav wrap nav-plain">
+    <a class="brand" href="index.html">ThreadCraft</a>
+    <ul class="menu">
+      <li><a href="index.html">Shop</a></li>
+      <li><a href="cart.html">Cart</a></li>
+      <li><a href="orders.html">Orders</a></li>
+      <li><a href="admin.html">Admin</a></li>
+      <li><a href="auth.html" id="authNavLink">Login</a></li>
+    </ul>
+  </nav>
+
+  <main class="wrap page-main">
+    <h1 class="page-title">Checkout</h1>
+
+    <section class="checkout-layout">
+      <form class="checkout-form" id="checkoutForm">
+        <h2>Shipping Details</h2>
+        <label>Full Name</label>
+        <input type="text" id="shipName" required>
+
+        <label>Email</label>
+        <input type="email" id="shipEmail" required>
+
+        <label>Phone</label>
+        <input type="tel" id="shipPhone" required>
+
+        <label>Address</label>
+        <textarea id="shipAddress" rows="4" required></textarea>
+      </form>
+
+      <aside class="summary-card">
+        <h2>Order Summary</h2>
+        <div id="checkoutItems" class="checkout-items"></div>
+        <div class="summary-row"><span>Subtotal</span><strong id="subtotal">INR 0</strong></div>
+        <div class="summary-row"><span>Shipping</span><strong id="shipping">INR 0</strong></div>
+        <div class="summary-row"><span>Tax (5%)</span><strong id="tax">INR 0</strong></div>
+        <hr>
+        <div class="summary-row total"><span>Total</span><strong id="total">INR 0</strong></div>
+
+        <button class="btn btn-primary summary-btn" id="paytmBtn" type="button">Pay with Paytm</button>
+
+        <div id="paymentBox" class="payment-box hidden">
+          <h3>Fallback UPI Payment</h3>
+          <p>Pay to: <strong id="paytmTarget"></strong></p>
+          <p>Amount: <strong id="paytmAmount"></strong></p>
+          <img id="paytmQr" alt="Paytm UPI QR code">
+          <a id="paytmLink" class="btn btn-ghost summary-btn" target="_blank" rel="noopener">Open UPI App</a>
+          <label>Payment Reference (optional)</label>
+          <input id="paymentRef" type="text" placeholder="UTR / txn id">
+          <button class="btn btn-primary summary-btn" id="confirmBtn" type="button">I Have Paid</button>
+        </div>
+      </aside>
+    </section>
+
+    <form id="paytmGatewayForm" method="post" class="hidden">
+      <input name="mid" id="paytmMid" type="hidden">
+      <input name="orderId" id="paytmOrderId" type="hidden">
+      <input name="txnToken" id="paytmTxnToken" type="hidden">
+    </form>
+  </main>
+
+  <div class="toast" id="toast" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+  <script src="checkout.js"></script>
+</body>
+</html>

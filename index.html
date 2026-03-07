@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ThreadCraft | Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="hero">
+    <nav class="nav wrap">
+      <a class="brand" href="index.html">ThreadCraft</a>
+      <ul class="menu">
+        <li><a href="#shop">Shop</a></li>
+        <li><a href="cart.html">Cart</a></li>
+        <li><a href="checkout.html">Checkout</a></li>
+        <li><a href="orders.html">Orders</a></li>
+        <li><a href="admin.html">Admin</a></li>
+        <li><a href="auth.html" id="authNavLink">Login</a></li>
+      </ul>
+      <a class="cart-btn" href="cart.html">Cart <span id="cartCount">0</span></a>
+    </nav>
+
+    <section class="hero-content wrap">
+      <div>
+        <p class="eyebrow">Street x Premium</p>
+        <h1>Wear Confidence, Not Just Clothes.</h1>
+        <p class="subtitle">Limited drops. Everyday essentials. Crafted for comfort, made to stand out.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#shop">Shop Now</a>
+          <a class="btn btn-ghost" href="admin.html">Manage Stock</a>
+        </div>
+      </div>
+      <aside class="offer-card" id="featured">
+        <h2>Paytm Enabled</h2>
+        <p>Checkout using Paytm UPI collect</p>
+        <p>Default receiver: <span>9440991869@paytm</span></p>
+        <small>Update in `.env` with `PAYTM_UPI_ID`</small>
+      </aside>
+    </section>
+  </header>
+
+  <main>
+    <section class="benefits wrap" aria-label="Store benefits">
+      <article><h3>Fast Shipping</h3><p>2-4 day delivery across India.</p></article>
+      <article><h3>Easy Returns</h3><p>7-day no-question returns.</p></article>
+      <article><h3>Live Stock</h3><p>Inventory synced from SQL backend.</p></article>
+    </section>
+
+    <section class="shop wrap" id="shop">
+      <div class="section-head">
+        <h2>Shop Collection</h2>
+        <div class="filters" role="tablist" aria-label="Product filters">
+          <button class="filter active" data-filter="all">All</button>
+          <button class="filter" data-filter="men">Men</button>
+          <button class="filter" data-filter="women">Women</button>
+          <button class="filter" data-filter="new">New</button>
+        </div>
+      </div>
+      <div class="grid" id="productGrid"></div>
+    </section>
+
+    <section class="newsletter">
+      <div class="wrap newsletter-inner">
+        <div>
+          <h2>Get First Access to New Drops</h2>
+          <p>Join our members list for early offers and style guides.</p>
+        </div>
+        <form id="subscribeForm" class="subscribe-form">
+          <label class="sr-only" for="email">Email</label>
+          <input type="email" id="email" placeholder="you@example.com" required>
+          <button class="btn btn-primary" type="submit">Subscribe</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <div><a class="brand" href="index.html">ThreadCraft</a><p>Fashion made simple and bold.</p></div>
+      <div><h4>Support</h4><p>support@threadcraft.com</p><p>+91 98765 43210</p></div>
+      <div><h4>Address</h4><p>22 Fashion Street</p><p>Mumbai, India</p></div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+  <script src="index.js"></script>
+</body>
+</html>

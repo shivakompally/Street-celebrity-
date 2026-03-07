@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ThreadCraft | Admin Panel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="nav wrap nav-plain">
+    <a class="brand" href="index.html">ThreadCraft</a>
+    <ul class="menu">
+      <li><a href="index.html">Shop</a></li>
+      <li><a href="cart.html">Cart</a></li>
+      <li><a href="checkout.html">Checkout</a></li>
+      <li><a href="orders.html">Orders</a></li>
+      <li><a href="auth.html" id="authNavLink">Login</a></li>
+    </ul>
+  </nav>
+
+  <main class="wrap page-main">
+    <h1 class="page-title">Admin Stock Panel</h1>
+
+    <section id="adminGate" class="auth-card hidden">
+      <h2>Admin access required</h2>
+      <p>Please login using an admin account.</p>
+      <a href="auth.html" class="btn btn-primary">Go to Login</a>
+    </section>
+
+    <section id="adminPanel" class="admin-layout hidden">
+      <article class="admin-card">
+        <h2>Analytics Dashboard</h2>
+        <div id="analyticsCards" class="analytics-cards"></div>
+        <div class="analytics-split">
+          <div>
+            <h3>Low Stock Alerts</h3>
+            <ul id="lowStockList" class="simple-list"></ul>
+          </div>
+          <div>
+            <h3>Top Products (Paid Orders)</h3>
+            <ul id="topProductsList" class="simple-list"></ul>
+          </div>
+        </div>
+      </article>
+
+      <article class="admin-card">
+        <h2>Order Management (Cancel / Refund)</h2>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Order</th>
+                <th>Customer</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="orderTableBody"></tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="admin-card">
+        <h2>Add New Stock (Shirts / Products)</h2>
+        <form id="addProductForm" class="admin-form">
+          <input name="name" placeholder="Product name" required>
+          <input name="description" placeholder="Description" required>
+          <select name="category" required>
+            <option value="men">men</option>
+            <option value="women">women</option>
+            <option value="unisex">unisex</option>
+          </select>
+          <input name="price" type="number" placeholder="Price INR" min="1" required>
+          <input name="stock" type="number" placeholder="Stock quantity" min="0" required>
+          <input name="image" type="url" placeholder="Image URL" required>
+          <select name="tag">
+            <option value="">normal</option>
+            <option value="new">new</option>
+          </select>
+          <button class="btn btn-primary" type="submit">Add Product</button>
+        </form>
+      </article>
+
+      <article class="admin-card">
+        <h2>Edit Existing Stock</h2>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Image</th>
+                <th>Tag</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="productTableBody"></tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

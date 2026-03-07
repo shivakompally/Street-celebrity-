@@ -1,0 +1,7 @@
+﻿node_modules
+npm-debug.log*
+.git
+.gitignore
+.env
+store.db-shm
+store.db-wal

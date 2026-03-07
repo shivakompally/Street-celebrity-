@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ThreadCraft | Cart</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="nav wrap nav-plain">
+    <a class="brand" href="index.html">ThreadCraft</a>
+    <ul class="menu">
+      <li><a href="index.html">Shop</a></li>
+      <li><a href="checkout.html">Checkout</a></li>
+      <li><a href="orders.html">Orders</a></li>
+      <li><a href="admin.html">Admin</a></li>
+      <li><a href="auth.html" id="authNavLink">Login</a></li>
+    </ul>
+  </nav>
+
+  <main class="wrap page-main">
+    <div class="page-head">
+      <h1 class="page-title">Your Cart</h1>
+      <a href="index.html" class="btn btn-ghost">Continue Shopping</a>
+    </div>
+
+    <section class="cart-layout">
+      <div id="cartItems" class="cart-items"></div>
+      <aside class="summary-card">
+        <h2>Order Summary</h2>
+        <div class="summary-row"><span>Subtotal</span><strong id="subtotal">INR 0</strong></div>
+        <div class="summary-row"><span>Shipping</span><strong id="shipping">INR 0</strong></div>
+        <div class="summary-row"><span>Tax (5%)</span><strong id="tax">INR 0</strong></div>
+        <hr>
+        <div class="summary-row total"><span>Total</span><strong id="total">INR 0</strong></div>
+        <a href="checkout.html" class="btn btn-primary summary-btn" id="checkoutBtn">Proceed to Checkout</a>
+      </aside>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+  <script src="cart.js"></script>
+</body>
+</html>
