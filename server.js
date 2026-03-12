@@ -302,7 +302,22 @@ function sweepPaymentTimeouts() {
 
 app.disable("x-powered-by");
 app.set("trust proxy", 1);
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+        "img-src": ["'self'", "data:", "https:"],
+        "style-src": ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+        "font-src": ["'self'", "https://fonts.gstatic.com", "data:"],
+        "script-src": ["'self'"],
+        "connect-src": ["'self'", "https:"],
+        "frame-src": ["'self'", "https:"],
+        "form-action": ["'self'", "https:"]
+      }
+    }
+  })
+);
 app.use(express.json({ limit: "200kb" }));
 app.use(express.urlencoded({ extended: false, limit: "200kb" }));
 
@@ -909,6 +924,7 @@ setInterval(sweepPaymentTimeouts, 60 * 1000);
 app.listen(PORT, () => {
   console.log(`ThreadCraft server running on http://localhost:${PORT}`);
 });
+
 
 
 
