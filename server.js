@@ -210,7 +210,9 @@ function getOrderForUser(orderId, userId) {
 }
 
 function paytmConfigured() {
-  return Boolean(PAYTM_MID && PAYTM_MKEY);
+  if (!PAYTM_MID || !PAYTM_MKEY) return false;
+  const length = PAYTM_MKEY.length;
+  return length === 16 || length === 24 || length === 32;
 }
 
 async function verifyPaytmOrderStatus(paytmOrderId) {
@@ -851,6 +853,52 @@ app.get("/api/orders/me", authRequired, (req, res) => {
   res.json(data);
 });
 
+app.get("/api/admin/db/export", authRequired, adminRequired, (_req, res) => {
+  const tables = ["users", "products", "orders", "order_items", "audit_logs"];
+  const dump = {};
+
+  for (const table of tables) {
+    const rows = db.prepare(`SELECT * FROM ${table}`).all();
+    dump[table] = rows;
+  }
+
+  logAudit("admin.db_export", { tables: Object.keys(dump) }, req.user.id, req.ip);
+  res.json({ tables: dump });
+});
+
+app.post("/api/admin/db/import", authRequired, adminRequired, (req, res) => {
+  const { tables, replace } = req.body || {};
+  if (!tables || typeof tables !== "object") {
+    return res.status(400).json({ message: "Invalid payload. Expected { tables: {..} }." });
+  }
+  if (replace !== true) {
+    return res.status(400).json({ message: "Set replace=true to import and overwrite existing data." });
+  }
+
+  const order = ["order_items", "orders", "products", "users", "audit_logs"];
+
+  const tx = db.transaction(() => {
+    for (const table of order) {
+      db.prepare(`DELETE FROM ${table}`).run();
+    }
+
+    for (const [table, rows] of Object.entries(tables)) {
+      if (!Array.isArray(rows) || rows.length === 0) continue;
+      const columns = Object.keys(rows[0]);
+      const placeholders = columns.map(() => "?").join(", ");
+      const stmt = db.prepare(`INSERT INTO ${table} (${columns.join(", ")}) VALUES (${placeholders})`);
+
+      for (const row of rows) {
+        stmt.run(columns.map((col) => row[col]));
+      }
+    }
+  });
+
+  tx();
+  logAudit("admin.db_import", { tables: Object.keys(tables) }, req.user.id, req.ip);
+  res.json({ ok: true });
+});
+
 app.use((req, res, next) => {
   if (req.path.startsWith("/api/")) return next();
   res.sendFile(path.join(__dirname, "index.html"));
@@ -861,3 +909,6 @@ setInterval(sweepPaymentTimeouts, 60 * 1000);
 app.listen(PORT, () => {
   console.log(`ThreadCraft server running on http://localhost:${PORT}`);
 });
+
+
+
