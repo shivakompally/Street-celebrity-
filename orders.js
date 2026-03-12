@@ -10,6 +10,30 @@ function formatDate(value) {
   });
 }
 
+function statusClass(status) {
+  switch (status) {
+    case "PAID":
+      return "paid";
+    case "REFUNDED":
+      return "refunded";
+    case "CANCELED":
+      return "canceled";
+    case "PAYMENT_FAILED":
+      return "failed";
+    case "PAYMENT_TIMEOUT":
+      return "timeout";
+    case "PAYMENT_INITIATED":
+    case "PENDING_PAYMENT":
+      return "pending";
+    default:
+      return "pending";
+  }
+}
+
+function statusLabel(status) {
+  return String(status || "PENDING").replace(/_/g, " ");
+}
+
 async function renderOrders() {
   const session = ThreadCraft.getSession();
   if (!session) {
@@ -43,7 +67,7 @@ async function renderOrders() {
               <h3>Order #${order.id}</h3>
               <p>${formatDate(order.createdAt)}</p>
             </div>
-            <div class="status ${order.status === "PAID" ? "paid" : "pending"}">${order.status}</div>
+            <div class="status ${statusClass(order.status)}">${statusLabel(order.status)}</div>
           </div>
           <div class="order-items">
             ${order.items

@@ -710,3 +710,23 @@ h1 {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+.status.failed {
+  background: #fde2e2;
+  color: #b42318;
+}
+
+.status.timeout {
+  background: #fff0c2;
+  color: #8a4b0f;
+}
+
+.status.refunded {
+  background: #e7f0ff;
+  color: #275ea8;
+}
+
+.status.canceled {
+  background: #f0f0f0;
+  color: #5c5c5c;
+}

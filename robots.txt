@@ -1,1 +1,1 @@
-﻿Sitemap: https://your-domain.com/sitemap.xml
+﻿Sitemap: https://threadcraft-store.onrender.com/sitemap.xml
