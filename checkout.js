@@ -1,4 +1,4 @@
-﻿const checkoutItems = document.getElementById("checkoutItems");
+const checkoutItems = document.getElementById("checkoutItems");
 const subtotalEl = document.getElementById("subtotal");
 const shippingEl = document.getElementById("shipping");
 const taxEl = document.getElementById("tax");
@@ -20,6 +20,7 @@ function fillUserDetails() {
 }
 
 async function renderSummary() {
+  await ThreadCraft.loadConfig();
   const items = await ThreadCraft.getCartDetails();
   const totals = ThreadCraft.computeTotals(items);
 
@@ -30,7 +31,7 @@ async function renderSummary() {
     : "<p class='muted'>Your cart is empty.</p>";
 
   subtotalEl.textContent = ThreadCraft.formatPrice(totals.subtotal);
-  shippingEl.textContent = ThreadCraft.formatPrice(totals.shipping);
+  shippingEl.textContent = ThreadCraft.formatShipping(totals.shipping);
   taxEl.textContent = ThreadCraft.formatPrice(totals.tax);
   totalEl.textContent = ThreadCraft.formatPrice(totals.total);
   paytmBtn.disabled = items.length === 0;
@@ -141,3 +142,5 @@ ThreadCraft.updateAuthLink();
 ThreadCraft.updateCartBadge();
 fillUserDetails();
 renderSummary();
+
+

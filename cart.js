@@ -1,4 +1,4 @@
-﻿const cartItems = document.getElementById("cartItems");
+const cartItems = document.getElementById("cartItems");
 const subtotalEl = document.getElementById("subtotal");
 const shippingEl = document.getElementById("shipping");
 const taxEl = document.getElementById("tax");
@@ -6,6 +6,7 @@ const totalEl = document.getElementById("total");
 const checkoutBtn = document.getElementById("checkoutBtn");
 
 async function renderCart() {
+  await ThreadCraft.loadConfig();
   const items = await ThreadCraft.getCartDetails();
   const totals = ThreadCraft.computeTotals(items);
 
@@ -45,7 +46,7 @@ async function renderCart() {
   }
 
   subtotalEl.textContent = ThreadCraft.formatPrice(totals.subtotal);
-  shippingEl.textContent = ThreadCraft.formatPrice(totals.shipping);
+  shippingEl.textContent = ThreadCraft.formatShipping(totals.shipping);
   taxEl.textContent = ThreadCraft.formatPrice(totals.tax);
   totalEl.textContent = ThreadCraft.formatPrice(totals.total);
   ThreadCraft.updateCartBadge();
@@ -83,3 +84,5 @@ checkoutBtn.addEventListener("click", (event) => {
 
 ThreadCraft.updateAuthLink();
 renderCart();
+
+

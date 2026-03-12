@@ -1,4 +1,4 @@
-﻿services:
+services:
   - type: web
     name: threadcraft-store
     env: node
@@ -29,8 +29,14 @@
         value: https://securegw-stage.paytm.in
       - key: PAYMENT_TIMEOUT_MINUTES
         value: 30
+      - key: SHIPPING_FEE
+        value: 0
+      - key: SHIPPING_FREE_OVER
+        value: 0
       - key: ADMIN_EMAIL
         value: admin@threadcraft.com
       - key: ADMIN_PASSWORD
         sync: false
+
+
 

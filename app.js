@@ -1,4 +1,4 @@
-﻿(() => {
+(() => {
   const API_BASE = "/api";
   const KEYS = {
     cart: "threadcraft_cart",
@@ -22,6 +22,33 @@
     }
   }
 
+  function toNumber(value, fallback) {
+    const num = Number(value);
+    return Number.isFinite(num) ? num : fallback;
+  }
+
+  const config = {
+    shippingFee: 0,
+    shippingFreeOver: 0
+  };
+
+  let configPromise = null;
+
+  async function loadConfig() {
+    if (configPromise) return configPromise;
+    configPromise = (async () => {
+      try {
+        const data = await request("/config");
+        config.shippingFee = toNumber(data.shippingFee, 0);
+        config.shippingFreeOver = toNumber(data.shippingFreeOver, 0);
+      } catch {
+        config.shippingFee = 0;
+        config.shippingFreeOver = 0;
+      }
+      return config;
+    })();
+    return configPromise;
+  }
   function getToken() {
     return localStorage.getItem(KEYS.token) || "";
   }
@@ -154,11 +181,22 @@
       .filter(Boolean);
   }
 
+  function computeShipping(subtotal) {
+    if (subtotal <= 0) return 0;
+    if (config.shippingFee <= 0) return 0;
+    if (config.shippingFreeOver > 0 && subtotal >= config.shippingFreeOver) return 0;
+    return config.shippingFee;
+  }
+
   function computeTotals(items) {
     const subtotal = items.reduce((sum, item) => sum + item.lineTotal, 0);
-    const shipping = subtotal > 4999 || subtotal === 0 ? 0 : 199;
+    const shipping = computeShipping(subtotal);
     const tax = Math.round(subtotal * 0.05);
     return { subtotal, shipping, tax, total: subtotal + shipping + tax };
+  }
+
+  function formatShipping(value) {
+    return Number(value) <= 0 ? "Free" : formatPrice(value);
   }
 
   function updateAuthLink(targetId = "authNavLink") {
@@ -190,6 +228,7 @@
     logout,
     getSession,
     formatPrice,
+    formatShipping,
     getProducts,
     getCart,
     getCartDetails,
@@ -199,9 +238,15 @@
     clearCart,
     getCartCount,
     computeTotals,
+    loadConfig,
     updateAuthLink,
     updateCartBadge,
     showToast
   };
 })();
+
+
+
+
+
 

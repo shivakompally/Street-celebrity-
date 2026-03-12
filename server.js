@@ -1,4 +1,4 @@
-﻿const path = require("path");
+const path = require("path");
 const crypto = require("crypto");
 const express = require("express");
 const Database = require("better-sqlite3");
@@ -15,6 +15,14 @@ const PORT = Number(process.env.PORT || 3000);
 const JWT_SECRET = process.env.JWT_SECRET || "threadcraft-dev-secret";
 const APP_BASE_URL = process.env.APP_BASE_URL || `http://localhost:${PORT}`;
 const PAYMENT_TIMEOUT_MINUTES = Number(process.env.PAYMENT_TIMEOUT_MINUTES || 30);
+
+function toNumber(value, fallback) {
+  const num = Number(value);
+  return Number.isFinite(num) ? num : fallback;
+}
+
+const SHIPPING_FEE = toNumber(process.env.SHIPPING_FEE, 0);
+const SHIPPING_FREE_OVER = toNumber(process.env.SHIPPING_FREE_OVER, 0);
 
 const PAYTM_UPI_ID = process.env.PAYTM_UPI_ID || "9440991869@paytm";
 const PAYTM_MERCHANT_NAME = process.env.PAYTM_MERCHANT_NAME || "ThreadCraft";
@@ -199,8 +207,15 @@ function signUser(user) {
   };
 }
 
+function computeShipping(subtotal) {
+  if (subtotal <= 0) return 0;
+  if (SHIPPING_FEE <= 0) return 0;
+  if (SHIPPING_FREE_OVER > 0 && subtotal >= SHIPPING_FREE_OVER) return 0;
+  return SHIPPING_FEE;
+}
+
 function computeTotals(subtotal) {
-  const shipping = subtotal > 4999 || subtotal === 0 ? 0 : 199;
+  const shipping = computeShipping(subtotal);
   const tax = Math.round(subtotal * 0.05);
   return { subtotal, shipping, tax, total: subtotal + shipping + tax };
 }
@@ -341,7 +356,14 @@ app.use("/api", globalLimiter);
 app.use(express.static(__dirname));
 
 app.get("/api/health", (_req, res) => {
-  res.json({ ok: true, paytmGatewayConfigured: paytmConfigured() });
+  res.status(200).json({ status: "ok" });
+});
+
+app.get("/api/config", (_req, res) => {
+  res.json({
+    shippingFee: SHIPPING_FEE,
+    shippingFreeOver: SHIPPING_FREE_OVER
+  });
 });
 
 app.post("/api/auth/register", authLimiter, (req, res) => {
@@ -924,6 +946,7 @@ setInterval(sweepPaymentTimeouts, 60 * 1000);
 app.listen(PORT, () => {
   console.log(`ThreadCraft server running on http://localhost:${PORT}`);
 });
+
 
 
 
